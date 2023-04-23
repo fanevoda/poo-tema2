@@ -155,7 +155,7 @@ public:
     friend istream& operator>>(istream& is, Contract& angajat);
 
 };
-
+      
 ostream& operator<<(ostream& os, Contract& contract)
 {
     os << "Contractul cu numarul "<< contract.nrContract << " din anul " << contract.an << " cu beneficiarul " << contract.beneficiar << " si cu furnizorul " << contract.furnizor << " in valoare de " << contract.valoare << endl;
@@ -165,15 +165,77 @@ ostream& operator<<(ostream& os, Contract& contract)
 istream& operator>>(istream& is, Contract& contract)
 {
     cout << "Numarul contractului este: ";
-    is >> contract.nrContract;
+     
+    bool validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            if (is >> contract.nrContract)
+                validInput = true;
+            else
+                throw "na vrut";
+        }
+        catch (...)
+        {
+            cout << "Input invalid. Mai incearca o data. ";
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
+
     cout << "Anul semnarii contractului de cumparare este: ";
-    is >> contract.an;
+
+    validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            if (is >> contract.an)
+                validInput = true;
+            else
+                throw "na vrut";
+        }
+        catch (...)
+        {
+            cout << "Input invalid. Mai incearca o data. ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
+
     cout << "Numele benificiarului este: ";
     is >> contract.beneficiar;
     cout << "Numele furnizorului este: ";
     is >> contract.furnizor;
+    
+    
     cout << "Valoarea contractului este de: ";
-    is >> contract.valoare;
+
+    validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            if (is >> contract.valoare)
+                validInput = true;
+            else
+                throw "na vrut";
+        }
+        catch (...)
+        {
+            cout << "Input invalid. Mai incearca o data. ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
+    
     return is;
 }
 
@@ -186,10 +248,9 @@ private:
 
 public:
 
-    ContractInchiriere()
+    ContractInchiriere() : Contract()
     {
         perioada = -1;
-        
     }
     ContractInchiriere(int _perioada)
     {
@@ -248,18 +309,28 @@ ostream& operator<<(ostream& os, ContractInchiriere& ContractInchiriere)
 
 istream& operator>>(istream& is, ContractInchiriere& ContractInchiriere)
 {   
-    cout << "Numarul contractului este: ";
-    is >> *ContractInchiriere.getp_nrContract();
-    cout << "Anul contractului este: ";
-    is >> *ContractInchiriere.getp_an();
-    cout << "Beneficiarul contractului este: ";
-    is >> *ContractInchiriere.getp_beneficiar();
-    cout << "Furnizorul contractului este: ";
-    is >> *ContractInchiriere.getp_furnizor();
-    cout << "Valoarea contractului este: ";
-    is >> *ContractInchiriere.getp_valoare();
-    cout << "Perioada de inchiriere este de: ";
-    is >> ContractInchiriere.perioada;
+    is >> *ContractInchiriere._bazaContract;
+    
+    bool validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            if (is >> ContractInchiriere.perioada)
+                validInput = true;
+            else
+                throw "na vrut";
+        }
+        catch (...)
+        {
+            cout << "Input invalid. Mai incearca o data. ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
+
     return is;
 }
 
@@ -334,7 +405,26 @@ ostream& operator<<(ostream& os, Dosar& Dosar)
 istream& operator>>(istream& is, Dosar& Dosar)
 {
     cout << "Cate contracte dorim sa introducem? ";
-    is >> Dosar.nrContracte;
+
+    bool validInput = false;
+
+    while (!validInput)
+    {
+        try
+        {
+            if (is >> Dosar.nrContracte)
+                validInput = true;
+            else
+                throw "na vrut";
+        }
+        catch (...)
+        {
+            cout << "Input invalid. Mai incearca o data. ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+    }
     
     for (int i = 0; i < Dosar.nrContracte; i++)
     {
@@ -348,7 +438,7 @@ istream& operator>>(istream& is, Dosar& Dosar)
 
 int main()
 {
-    // Contract pana(1, 2003, "fane", "calin", 100);
+    // Contract pana(1, 2003, "fane", "fanoiu de vara", 100);
 
     /* nici upcast sau downcast nu stiu cum as folosi dar cred ca ar arata asa
 
