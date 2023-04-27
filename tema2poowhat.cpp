@@ -5,7 +5,7 @@ using namespace std;
 
 class Contract
 {
-private:
+protected:
     int nrContract;
     int an;
     string beneficiar;
@@ -60,27 +60,6 @@ public:
     const int get_valoare()
     {
         return valoare;
-    }
-
-    int* getp_nrContract()
-    {
-        return &nrContract;
-    }
-    int* getp_an()
-    {
-        return &an;
-    }
-    string* getp_beneficiar()
-    {
-        return &beneficiar;
-    }
-    string* getp_furnizor()
-    {
-        return &furnizor;
-    }
-    int* getp_valoare()
-    {
-        return &valoare;
     }
 
     void set_nrContract(const int x)
@@ -240,7 +219,7 @@ istream& operator>>(istream& is, Contract& contract)
 }
 
 
-class ContractInchiriere : Contract
+class ContractInchiriere : public Contract
 {
 private:
     int perioada;
@@ -265,11 +244,11 @@ public:
     ContractInchiriere(ContractInchiriere& other)
     {
         perioada = other.perioada;
-        *getp_an() = other.get_an();
-        *getp_nrContract() = other.get_nrContract();
-        *getp_beneficiar() = other.get_beneficiar();
-        *getp_furnizor() = other.get_furnizor();
-        *getp_valoare() = other.get_valoare();
+        an = other.get_an();
+        nrContract = other.get_nrContract();
+        beneficiar = other.get_beneficiar();
+        furnizor = other.get_furnizor();
+        valoare = other.get_valoare();
     }
 
     ~ContractInchiriere() {}  
@@ -302,7 +281,7 @@ public:
 
 ostream& operator<<(ostream& os, ContractInchiriere& ContractInchiriere)
 {
-    os << "Contractul cu numarul " << ContractInchiriere._bazaContract->get_nrContract() << " din anul " << ContractInchiriere._bazaContract->get_an() << " cu beneficiarul " << ContractInchiriere._bazaContract->get_beneficiar() << " si cu furnizorul " << ContractInchiriere._bazaContract->get_furnizor() << " in valoare de " << ContractInchiriere._bazaContract->get_valoare() << " RON ";
+    os << *ContractInchiriere._bazaContract;
     os << " pe o perioada de " << ContractInchiriere.perioada << " luni." << endl;
     return os;
 }
@@ -312,6 +291,8 @@ istream& operator>>(istream& is, ContractInchiriere& ContractInchiriere)
     is >> *ContractInchiriere._bazaContract;
     
     bool validInput = false;
+
+    cout << "Pe cate luni este contractul? ";
 
     while (!validInput)
     {
